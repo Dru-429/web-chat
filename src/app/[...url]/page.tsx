@@ -1,5 +1,5 @@
 import { ragChat } from '@/lib/rag-chat'
-import React, { Component } from 'react'
+import React from 'react'
 
 interface PageProps {
     params: {
@@ -7,22 +7,22 @@ interface PageProps {
     }
 }
 
-// function reconstructURL({url} : {url:string[]}){
+function reconstructURL({url} : {url:string[]}){
 
-//     const decodedComponent = url.map( (Component) => decodeURIComponent(Component))
+    const decodedComponent = url.map( (component) => decodeURIComponent(component))
 
-//     return decodedComponent.join('/')
-// }
+    return decodedComponent.join('/')
+}
  
 const page = async ({ params }: PageProps ) => {
     console.log('params', params)
     
-    // const reUrl = reconstructURL({ url: params.url as string[]})
-    // await ragChat.context.add({
-    //     type: "html",
-    //     source: reUrl,
-    //     config: { chunkOverlap: 50, chunkSize: 1000 }
-    // })
+    const reUrl = reconstructURL({ url: params.url as string[]})
+    await ragChat.context.add({
+        type: "html",
+        source: reUrl,
+        config: { chunkOverlap: 50, chunkSize: 1000 }
+    })
 
   return (
     <div>

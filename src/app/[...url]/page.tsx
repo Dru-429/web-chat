@@ -28,9 +28,12 @@ const page = async ({ params }: PageProps ) => {
             config: { chunkOverlap: 50, chunkSize: 1000 }
         })
 
+        console.log("Adding URL to Redis Set:", reUrl)
         await redis.sadd("indexed-urls", reUrl) //sadd adds the URL to the Redis Set
     }
-    
+    else {
+        console.log("URL already indexed:", reUrl)
+    }
 
   return (
     <div>

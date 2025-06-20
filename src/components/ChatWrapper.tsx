@@ -5,7 +5,7 @@ import React from 'react'
 
 const ChatWrapper = ({ sessionId } : { sessionId : string} ) => {
 
-  const {messages, handleInputChange, input} = useChat({
+  const {messages, handleInputChange, input, handleSubmit} = useChat({
     api: "/api/chat-stream",
     body: { sessionId }
   })
@@ -16,13 +16,21 @@ const ChatWrapper = ({ sessionId } : { sessionId : string} ) => {
             {JSON.stringify(messages)}
         </div>
 
-        <input 
-            type="text" 
-            value={input}
-            onChange={handleInputChange}
-            className="w-full p-2 bg-zinc-700 text-white border border-zinc-600 rounded focus:outline-none focus:ring-2 focus:ring-zinc-500"
-            placeholder='Type your message here...'
-        />
+        <form onSubmit={handleSubmit}>
+            <input 
+                type="text" 
+                value={input}
+                onChange={handleInputChange}
+                className="w-full p-2 bg-zinc-700 text-white border border-zinc-600 rounded focus:outline-none focus:ring-2 focus:ring-zinc-500"
+                placeholder='Type your message here...'
+            />
+            <button 
+                type="submit" 
+                className="mt-2 w-full bg-zinc-600 hover:bg-zinc-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-zinc-400"
+            >Send </button>
+        </form>
+
+        
     </div>
   )
 }

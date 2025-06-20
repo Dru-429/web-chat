@@ -1,3 +1,4 @@
+import ChatWrapper from '@/components/ChatWrapper'
 import { ragChat } from '@/lib/rag-chat'
 import { redis } from '@/lib/redis'
 import React from 'react'
@@ -21,11 +22,13 @@ const page = async ({ params }: PageProps ) => {
 
     const isIndexed = await redis.sismember("indexed-urls", reUrl)  //sismember checks if the URL is already indexed in Redis Set (name of set, to check)
 
+    const sessionId = "mock-session"
+
     if (!isIndexed) {
         await ragChat.context.add({
             type: "html",
             source: reUrl,
-            config: { chunkOverlap: 50, chunkSize: 1000 }
+            config: { chunkOverlap: 50, chunkSize: 1000 }  
         })
 
         console.log("Adding URL to Redis Set:", reUrl)
@@ -35,15 +38,7 @@ const page = async ({ params }: PageProps ) => {
         console.log("URL already indexed:", reUrl)
     }
 
-  return (
-    <div>
-        hi there
-        <iframe
-            src={reUrl}
-            style={{ width: '80%', height: '100vh', border: 'none' }}
-        />
-    </div>
-  )
+  return <ChatWrapper sessionId={sessionId} />
 }
 
-export default page
+export default page 
